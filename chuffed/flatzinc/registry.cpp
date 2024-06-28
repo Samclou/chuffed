@@ -151,6 +151,19 @@ std::list<string> getCumulativeOptions(AST::Node* ann) {
 	return opt;
 }
 
+std::list<string> getCumulativeAltOptions(AST::Node* ann) {
+    std::list<string> opt;
+    if (ann) {
+        if (ann->hasCall("tt_filt_elapsed")) {
+            if (ann->getCall("tt_filt_elapsed")->args->getBool())
+                opt.push_back("tt_filt_elapsed_on");
+            else
+                opt.push_back("tt_filt_elapsed_off");
+        }
+    }
+    return opt;
+}
+
 BoolView getBoolVar(AST::Node* n) {
 	if (n->isBoolVar()) {
 		return s->bv[n->getBoolVar()];
@@ -1804,6 +1817,65 @@ void p_bounded_path_new(const ConExpr& ce, AST::Node* ann) {
 	path(s, t, vs, es, in, ou, en);
 	bounded_path(s, t, vs, es, in, ou, en, ws, w);
 }
+void p_calendar_day(const ConExpr& ce, AST::Node* ann) {
+    vec<int> c; arg2intargs(c, ce[4]);
+    calendar_day(getIntVar(ce[0]), getIntVar(ce[1]), getIntVar(ce[2]), ce[3]->getInt(), c);
+}
+
+void p_calendar_hour(const ConExpr& ce, AST::Node* ann) {
+    vec<int> c; arg2intargs(c, ce[4]);
+    calendar_hour(getIntVar(ce[0]), getIntVar(ce[1]), getIntVar(ce[2]), ce[3]->getInt(), c);
+}
+
+void p_cumulative_calendar_day(const ConExpr& ce, AST::Node* ann) {
+    vec<IntVar*> s; arg2intvarargs(s, ce[0]);
+    vec<IntVar*> o; arg2intvarargs(o, ce[1]);
+    vec<IntVar*> e; arg2intvarargs(e, ce[2]);
+    vec<int> d; arg2intargs(d, ce[3]);
+    vec<int> c; arg2intargs(c, ce[4]);
+    int limit = ce[5]->getInt();
+    int n_cal = ce[6]->getInt();
+
+    vec<int> cals_flat; arg2intargs(cals_flat, ce[7]);
+    rassert(cals_flat.size() % n_cal == 0);
+    int horizon = cals_flat.size() / n_cal;
+    vec<std::vector<int> > cals;
+    for (int i = 0; i < n_cal; i++) {
+        cals.push(std::vector<int>());
+        for (int j = 0; j < horizon; j++) {
+            cals[i].push_back(cals_flat[i * horizon + j]);
+        }
+    }
+    vec<int> cals_followed; arg2intargs(cals_followed, ce[8]);
+    std::list<string> opt = getCumulativeAltOptions(ann);
+
+    cumulative_calendar_day(s, o, e, d, c, limit, cals, cals_followed, opt);
+}
+
+void p_cumulative_calendar_hour(const ConExpr& ce, AST::Node* ann) {
+    vec<IntVar*> s; arg2intvarargs(s, ce[0]);
+    vec<IntVar*> o; arg2intvarargs(o, ce[1]);
+    vec<IntVar*> e; arg2intvarargs(e, ce[2]);
+    vec<int> d; arg2intargs(d, ce[3]);
+    vec<int> c; arg2intargs(c, ce[4]);
+    int limit = ce[5]->getInt();
+    int n_cal = ce[6]->getInt();
+
+    vec<int> cals_flat; arg2intargs(cals_flat, ce[7]);
+    rassert(cals_flat.size() % n_cal == 0);
+    int horizon = cals_flat.size() / n_cal;
+    vec<std::vector<int> > cals;
+    for (int i = 0; i < n_cal; i++) {
+        cals.push(std::vector<int>());
+        for (int j = 0; j < horizon; j++) {
+            cals[i].push_back(cals_flat[i * horizon + j]);
+        }
+    }
+    vec<int> cals_followed; arg2intargs(cals_followed, ce[8]);
+    std::list<string> opt = getCumulativeAltOptions(ann);
+
+    cumulative_calendar_hour(s, o, e, d, c, limit, cals, cals_followed, opt);
+}
 
 class IntPoster {
 public:
@@ -1951,6 +2023,11 @@ public:
 		registry().add("chuffed_dpath", &p_path_new);
 		registry().add("chuffed_dag", &p_dag_new);
 		registry().add("chuffed_bounded_dpath", &p_bounded_path_new);
+
+        registry().add("chuffed_calendar_day", &p_calendar_day);
+        registry().add("chuffed_calendar_hour", &p_calendar_hour);
+        registry().add("chuffed_cumulative_calendar_day", &p_cumulative_calendar_day);
+        registry().add("chuffed_cumulative_calendar_hour", &p_cumulative_calendar_hour);
 	}
 };
 IntPoster _int_poster;

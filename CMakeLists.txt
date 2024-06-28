@@ -115,6 +115,7 @@ add_library(chuffed
   chuffed/globals/dtree.cpp
   chuffed/globals/dag.cpp
   chuffed/globals/bounded_path.cpp
+  chuffed/globals/cumulativeCalendar_alternative.cpp
   chuffed/mdd/MDD.cpp
   chuffed/mdd/mdd_prop.cpp
   chuffed/mdd/mdd_to_lgraph.cpp
@@ -130,6 +131,7 @@ add_library(chuffed
   chuffed/primitives/arithmetic.cpp
   chuffed/primitives/domain.cpp
   chuffed/primitives/binary.cpp
+  chuffed/primitives/calendars.cpp
   chuffed/branching/branching.cpp
   chuffed/core/init.cpp
   chuffed/core/stats.cpp
@@ -163,6 +165,12 @@ add_library(chuffed
   chuffed/support/dynamic_kmeans.h
   chuffed/support/floyd_warshall.h
   chuffed/support/set_finder.h
+  chuffed/support/calendar.h
+  chuffed/support/calendar.cpp
+  chuffed/support/prefilled_sparse_set.h
+  chuffed/support/prefilled_sparse_set.cpp
+  chuffed/support/reversible_sparse_set.h
+  chuffed/support/reversible_sparse_set.cpp
   chuffed/ldsb/ldsb.h
   chuffed/globals/globals.h
   chuffed/globals/mddglobals.h

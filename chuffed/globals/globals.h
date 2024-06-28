@@ -127,4 +127,8 @@ void dag(int r, vec<BoolView>& _vs, vec<BoolView>& _es, vec<vec<int> >& _in, vec
 void bounded_path(int from, int to, vec<BoolView>& _vs, vec<BoolView>& _es, vec<vec<int> >& _in,
 									vec<vec<int> >& _out, vec<vec<int> >& _en, vec<int>& _ws, IntVar* w);
 
+// cumulativeCalendar_alternative.cpp
+void cumulative_calendar_day(vec<IntVar*>& s, vec<IntVar*>& o, vec<IntVar*>& e, vec<int>& d, vec<int>& r, int limit, const vec<std::vector<int>>& calendars, const vec<int>& cals_followed, std::list<std::string>& opt);
+void cumulative_calendar_hour(vec<IntVar*>& s, vec<IntVar*>& o, vec<IntVar*>& e, vec<int>& d, vec<int>& r, int limit, const vec<std::vector<int>>& calendars, const vec<int>& cals_followed, std::list<std::string>& opt);
+
 #endif

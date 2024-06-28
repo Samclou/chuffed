@@ -166,4 +166,10 @@ void last_val(BoolView* x, bool* v);
 
 void mark_complete(BoolView x, bool* v);
 
+
+// calendars.cpp
+
+void calendar_day(IntVar* start, IntVar* overtime, IntVar* elapsed_time, int p_i, vec<int>& calendar);
+void calendar_hour(IntVar* start, IntVar* overtime, IntVar* elapsed_time, int p_i, vec<int>& calendar);
+
 #endif
