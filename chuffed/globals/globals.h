@@ -78,6 +78,9 @@ void cumulative_cal(vec<IntVar*>& s, vec<IntVar*>& d, vec<IntVar*>& r, IntVar* l
 										vec<vec<int> >& cal, vec<int>& taskCal, int rho, int resCal,
 										std::list<std::string> opt);
 
+// cumulative_kaoc.cpp
+void cumulative_kaoc(vec<IntVar*>& s, vec<IntVar*>& d, vec<IntVar*>& r, int limit, std::list<std::string>& opt);
+
 // lex.c
 
 void lex(vec<IntVar*>& x, vec<IntVar*>& y, bool strict);

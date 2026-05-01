@@ -766,6 +766,36 @@ void p_cumulative_cal(const ConExpr& ce, AST::Node* ann) {
 	cumulative_cal(s, d, p, getIntVar(ce[3]), cal, taskCal, rho, resCal, opt);
 }
 
+void p_cumulative_kaoc(const ConExpr& ce, AST::Node* ann) {
+	vec<IntVar*> s;
+	arg2intvarargs(s, ce[0]);
+	vec<IntVar*> d;
+	arg2intvarargs(d, ce[1]);
+	vec<IntVar*> p;
+	arg2intvarargs(p, ce[2]);
+	int limit;
+	limit = ce[3]->getInt();
+	std::list<string> opt;
+	if (ann != nullptr) {
+		if (ann->hasCall("holes")) {
+			if (ann->getCall("holes")->args->getBool()) {
+				opt.emplace_back("holes_on");
+			} else {
+				opt.emplace_back("holes_off");
+			}
+		}
+		if (ann->hasCall("kaoc_lifting")) {
+			if (ann->getCall("kaoc_lifting")->args->getBool()) {
+				opt.emplace_back("kaoc_lifting_on");
+			} else {
+				opt.emplace_back("kaoc_lifting_off");
+			}
+		}
+	}
+
+	cumulative_kaoc(s, d, p, limit, opt);
+}
+
 void p_circuit(const ConExpr& ce, AST::Node* ann) {
 	vec<IntVar*> x;
 	arg2intvarargs(x, ce[0]);
@@ -1892,6 +1922,7 @@ public:
 		registry().add("chuffed_cumulative", &p_cumulative);
 		registry().add("chuffed_cumulative_vars", &p_cumulative2);
 		registry().add("chuffed_cumulative_cal", &p_cumulative_cal);
+		registry().add("chuffed_cumulative_kaoc", &p_cumulative_kaoc);
 		registry().add("chuffed_circuit", &p_circuit);
 		registry().add("chuffed_subcircuit", &p_subcircuit);
 		registry().add("array_int_minimum", &p_minimum);

@@ -115,6 +115,7 @@ add_library(chuffed
   chuffed/globals/dtree.cpp
   chuffed/globals/dag.cpp
   chuffed/globals/bounded_path.cpp
+  chuffed/globals/cumulative_kaoc.cpp
   chuffed/mdd/MDD.cpp
   chuffed/mdd/mdd_prop.cpp
   chuffed/mdd/mdd_to_lgraph.cpp
@@ -163,6 +164,9 @@ add_library(chuffed
   chuffed/support/dynamic_kmeans.h
   chuffed/support/floyd_warshall.h
   chuffed/support/set_finder.h
+  chuffed/support/bit_set.h
+  chuffed/support/prefilled_sparse_set.h
+  chuffed/support/prefilled_sparse_set.cpp
   chuffed/ldsb/ldsb.h
   chuffed/globals/globals.h
   chuffed/globals/mddglobals.h
